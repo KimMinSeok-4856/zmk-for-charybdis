@@ -3,7 +3,6 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
-#include <dt-bindings/zmk/rgb.h>
 
 &lt {
     tapping-term-ms = <200>;
@@ -17,11 +16,11 @@
 
         layer_0 {
             bindings = <
-&mt ESC K_POWER   &kp N1  &kp N2  &kp N3        &kp N4        &kp N5       &kp N6       &kp N7         &kp N8     &mt MINUS N9        &mt EQUAL N0         &mt GRAVE DELETE
-&kp TAB           &kp Q   &kp W   &kp E         &kp R         &kp T        &kp Y        &kp U          &kp I      &mt LEFT_BRACKET O  &mt RIGHT_BRACKET P  &kp BACKSPACE
-&kp LEFT_CONTROL  &kp A   &kp S   &kp D         &kp F         &kp G        &kp H        &kp J          &kp K      &kp L               &mt SEMI APOSTROPHE  &kp ENTER
-&kp LEFT_SHIFT    &kp Z   &kp X   &mt LC(C) C   &mt LC(V) V   &kp B        &kp N        &kp M          &kp COMMA  &kp DOT             &mt FSLH BACKSLASH   &to 1
-                                  &kp LEFT_WIN  &kp LEFT_ALT  &mo 2        &lt 1 SPACE  &kp RIGHT_ALT
+&mt C_POWER ESC   &kp N1  &kp N2  &kp N3        &kp N4        &kp N5       &kp N6     &kp N7         &kp N8     &mt MINUS N9        &mt EQUAL N0         &mt GRAVE DELETE
+&mt CAPS TAB      &kp Q   &kp W   &kp E         &kp R         &kp T        &kp Y      &kp U          &kp I      &mt LEFT_BRACKET O  &mt RIGHT_BRACKET P  &kp BACKSPACE
+&kp LEFT_CONTROL  &kp A   &kp S   &kp D         &kp F         &kp G        &kp H      &kp J          &kp K      &kp L               &mt SEMI APOSTROPHE  &kp KP_ENTER
+&kp LEFT_SHIFT    &kp Z   &kp X   &mt LC(C) C   &mt LC(V) V   &kp B        &kp N      &kp M          &kp COMMA  &kp DOT             &mt FSLH BACKSLASH   &to 1
+                                  &kp LEFT_WIN  &kp LEFT_ALT  &mo 1        &kp SPACE  &kp RIGHT_ALT
                                                 &mkp LCLK     &mkp MCLK    &mkp RCLK
             >;
 
@@ -30,26 +29,15 @@
 
         layer_1 {
             bindings = <
-&kp F1            &kp F2  &kp F3  &kp F4        &kp F5        &kp F6       &kp F7     &kp F8             &kp F9    &kp F10        &kp F11          &kp F12
-&kp CAPS          &kp Q   &kp W   &kp E         &none         &none        &none      &kp HOME           &kp UP    &kp PG_UP      &kp PRINTSCREEN  &kp BACKSPACE
-&kp LEFT_CONTROL  &kp A   &kp S   &kp D         &kp F         &none        &none      &kp LEFT           &kp DOWN  &kp RIGHT      &none            &kp ENTER
-&kp LEFT_SHIFT    &kp Z   &none   &kp C         &none         &none        &none      &kp END            &none     &kp PAGE_DOWN  &none            &to 0
-                                  &kp LEFT_WIN  &kp LEFT_ALT  &none        &kp SPACE  &kp RIGHT_CONTROL
-                                                &mkp LCLK     &mkp MCLK    &mkp RCLK
+&kp F1            &kp F2  &kp F3  &kp F4        &kp F5        &kp F6          &kp F7        &kp F8             &kp F9    &kp F10        &kp F11          &kp F12
+&kp TAB           &kp Q   &kp W   &kp E         &bt BT_SEL 0  &bt BT_SEL 1    &kp K_MUTE    &kp HOME           &kp UP    &kp PG_UP      &kp PRINTSCREEN  &kp BACKSPACE
+&kp LEFT_CONTROL  &kp A   &kp S   &kp D         &kp F         &bt BT_SEL 2    &kp C_VOL_UP  &kp LEFT           &kp DOWN  &kp RIGHT      &none            &kp ENTER
+&kp LEFT_SHIFT    &kp Z   &none   &kp C         &bt BT_CLR    &bt BT_SEL 3    &kp C_VOL_DN  &kp END            &none     &kp PAGE_DOWN  &none            &to 0
+                                  &kp LEFT_WIN  &kp LEFT_ALT  &none           &kp SPACE     &kp RIGHT_CONTROL
+                                                &mkp LCLK     &mkp MCLK       &mkp RCLK
             >;
 
             trackball-bindings = <&tsl>;
-        };
-
-        layer_2 {
-            bindings = <
-&none             &bt BT_SEL 1       &bt BT_SEL 2     &bt BT_SEL 3     &bt BT_SEL 4     &none    &none      &none            &none            &none            &kp EQUAL           &none
-&none             &bt BT_CLR         &none            &none            &none            &none    &none      &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9  &mt SLASH ASTERISK  &kp BACKSPACE
-&kp LEFT_CONTROL  &kp C_VOLUME_DOWN  &kp C_VOLUME_UP  &kp K_MUTE       &kp KP_NUMLOCK   &none    &none      &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp KP_NUMBER_6  &mt MINUS PLUS      &kt ENTER
-&kp LEFT_SHIFT    &rgb_ug RGB_TOG    &rgb_ug RGB_EFF  &rgb_ug RGB_BRI  &rgb_ug RGB_BRD  &none    &none      &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp KP_NUMBER_3  &kp PERIOD          &kp RIGHT_SHIFT
-                                                      &rgb_ug RGB_SPI  &rgb_ug RGB_SPD  &none    &kp SPACE  &kp KP_NUMBER_0
-                                                                       &none            &none    &none
-            >;
         };
 
         /* layer_2 {
