@@ -4,11 +4,12 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
 
+// 구버전 환경에서 충돌을 피하기 위해 최상위 레벨에 behaviors를 독립 선언합니다.
 / {
     behaviors {
-        // 일반 키끼리 Hold-Tap이 가능하도록 만드는 커스텀 규칙
         ht: hold_tap {
             compatible = "zmk,behavior-hold-tap";
+            label = "HOLD_TAP";
             #binding-cells = <2>;
             flavor = "balanced";
             tapping-term-ms = <200>;
@@ -16,7 +17,9 @@
             bindings = <&kp>, <&kp>;
         };
     };
+};
 
+/ {
     keymap {
         compatible = "zmk,keymap";
 
