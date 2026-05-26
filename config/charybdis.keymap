@@ -16,12 +16,12 @@
 
         layer_0 {
             bindings = <
-&mt C_POWER ESC   &kp N1  &kp N2  &kp N3        &kp N4        &kp N5       &kp N6     &kp N7         &kp N8     &mt MINUS N9        &mt EQUAL N0         &mt GRAVE DELETE
-&mt CAPS TAB      &kp Q   &kp W   &kp E         &kp R         &kp T        &kp Y      &kp U          &kp I      &mt LEFT_BRACKET O  &mt RIGHT_BRACKET P  &kp BACKSPACE
-&kp LEFT_CONTROL  &kp A   &kp S   &kp D         &kp F         &kp G        &kp H      &kp J          &kp K      &kp L               &mt SEMI APOSTROPHE  &kp KP_ENTER
-&kp LEFT_SHIFT    &kp Z   &kp X   &mt LC(C) C   &mt LC(V) V   &kp B        &kp N      &kp M          &kp COMMA  &kp DOT             &mt FSLH BACKSLASH   &to 1
-                                  &kp LEFT_WIN  &kp LEFT_ALT  &mo 1        &kp SPACE  &kp RIGHT_ALT
-                                                &mkp LCLK     &mkp MCLK    &mkp RCLK
+&mt C_POWER ESC   &kp N1  &kp N2  &kp N3        &kp N4        &kp N5    &kp N6     &kp N7         &kp N8     &mt MINUS N9        &mt EQUAL N0         &mt GRAVE DELETE
+&mt CAPS TAB      &kp Q   &kp W   &kp E         &kp R         &kp T     &kp Y      &kp U          &kp I      &mt LEFT_BRACKET O  &mt RIGHT_BRACKET P  &kp BACKSPACE
+&kp LEFT_CONTROL  &kp A   &kp S   &kp D         &kp F         &kp G     &kp H      &kp J          &kp K      &kp L               &mt SEMI APOSTROPHE  &kp KP_ENTER
+&kp LEFT_SHIFT    &kp Z   &kp X   &mt LC(C) C   &mt LC(V) V   &kp B     &kp N      &kp M          &kp COMMA  &kp DOT             &mt FSLH BACKSLASH   &to 1
+                                  &kp LEFT_WIN  &kp LEFT_ALT  &mo 1     &kp SPACE  &kp RIGHT_ALT
+                                                &mkp LCLK     &none     &mkp RCLK
             >;
 
             trackball-bindings = <&tmv_coarse>;
