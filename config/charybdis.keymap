@@ -5,9 +5,9 @@
 #include <dt-bindings/zmk/pointing.h>
 
 // 구버전 환경에서 충돌을 피하기 위해 최상위 레벨에 behaviors를 독립 선언합니다.
-
 / {
     behaviors {
+        // 일반 키용 Hold-Tap
         ht: hold_tap {
             compatible = "zmk,behavior-hold-tap";
             label = "HOLD_TAP";
@@ -16,6 +16,17 @@
             tapping-term-ms = <200>;
             quick-tap-ms = <150>;
             bindings = <&kp>, <&kp>;
+        };
+
+        // 마우스 클릭용 Hold-Tap (새로 추가)
+        hm: hold_tap_mouse {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HOLD_TAP_MOUSE";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <150>;
+            bindings = <&mkp>, <&mkp>;
         };
     };
 };
@@ -29,9 +40,9 @@
 &kp ESC           &kp N1  &kp N2  &kp N3        &kp N4        &kp N5           &kp N6       &kp N7                       &kp N8     &ht MINUS N9        &ht EQUAL N0         &ht GRAVE DELETE
 &ht CAPS TAB      &kp Q   &kp W   &kp E         &kp R         &kp T            &kp Y        &kp U                        &kp I      &ht LEFT_BRACKET O  &ht RIGHT_BRACKET P  &kp BACKSPACE
 &kp LEFT_CONTROL  &kp A   &kp S   &kp D         &kp F         &kp G            &kp H        &kp J                        &kp K      &kp L               &ht SQT SEMICOLON    &kp ENTER
-&kp RIGHT_SHIFT   &kp Z   &kp X   &ht LC(C) C   &ht LC(V) V   &kp B            &kp N        &kp M                        &kp COMMA  &kp PERIOD          &kp SLASH            &kp BACKSLASH
+&kp RIGHT_SHIFT   &kp Z   &kp X   &ht LC(C) C   &ht LC(V) V   &kp B            &kp N          &kp M                        &kp COMMA  &kp PERIOD          &kp SLASH            &kp BACKSLASH
                                   &kp LEFT_WIN  &kp LEFT_ALT  &kp LC(LS(F))    &lt 1 SPACE  &ht RIGHT_CONTROL RIGHT_ALT
-                                                &mkp MB1      &mkp MB2         &kp LG(R)
+                                                &mkp MB1      &hm MB4 MB2      &kp LG(R)
             >;
 
             trackball-bindings = <&tmv_coarse>;
