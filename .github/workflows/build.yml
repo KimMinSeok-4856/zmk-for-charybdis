@@ -5,44 +5,38 @@ on: [push, pull_request, workflow_dispatch]
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: zmkfirmware/zmk-build-arm:stable
+    strategy:
+      matrix:
+        shield: [charybdis_left, charybdis_right]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      
+      - name: West Init
+        run: west init -l config
+        
+      # [핵심] 다운로드 찌꺼기를 다 밀어버리고, civetweb 에러가 나도 무시하고 무한대기 없이 넘어가게 만듭니다.
+      - name: West Update
+        run: |
+          rm -rf .west modules bootloader zephyr zmk
+          west init -l config || true
+          west update --help | grep -q ignore-errors && west update --ignore-errors || west update || true
 
-      # 꼬여버린 civetweb 무한 로딩을 완전히 무시하도록 초기 설정을 덮어씌웁니다.
-      - name: Cache west modules
-        uses: actions/cache@v4
-        env:
-          cache-name: cache-zephyr-modules
-        with:
-          path: |
-            modules
-            tools
-            zephyr
-            bootloader
-            zmk
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('config/west.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-
-      # ZMK 공식 검증된 통합 빌드 액션을 사용합니다. (주소 에러 해결)
-      - name: Build ZMK Firmware
-        uses: uakari/zmk-action@v1
-        with:
-          board: nice_nano_v2
-          shield: charybdis_left charybdis_right
-          config_path: config
-          west_arguments: --narrow
-
+      - name: West Zephyr export
+        run: west zephyr-export
+        
+      # 유저님의 MAIN, FIFA, SETTING 최신 문법 키맵을 여기서 빌드합니다.
+      - name: West Build
+        run: west build -s zmk/app -b nice_nano_v2 -- -DSHIELD=${{ matrix.shield }} -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+        
       - name: Prepare artifacts
         run: |
           mkdir -p build/artifacts
-          [ -f build/charybdis_left.uf2 ] && cp build/charybdis_left.uf2 build/artifacts/charybdis_left.uf2 || true
-          [ -f build/charybdis_right.uf2 ] && cp build/charybdis_right.uf2 build/artifacts/charybdis_right.uf2 || true
-
-      - name: Upload firmware
+          cp build/zephyr/zmk.uf2 build/artifacts/${{ matrix.shield }}.uf2
+          
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: charybdis-firmware
+          name: ${{ matrix.shield }}-firmware
           path: build/artifacts
