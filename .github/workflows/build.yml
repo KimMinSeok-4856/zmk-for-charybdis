@@ -5,37 +5,56 @@ on: [push, pull_request, workflow_dispatch]
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: zmkfirmware/zmk-build-arm:stable
-    strategy:
-      matrix:
-        shield: [charybdis_left, charybdis_right]
     steps:
       - uses: actions/checkout@v4
 
-      - name: West Init
-        run: west init -l config
+      - name: Cache west modules
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-zephyr-modules
+        with:
+          path: |
+            modules
+            tools
+            zephyr
+            bootloader
+            zmk
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('config/west.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
 
-      # 구버전 west 파서가 이해하는 안전한 클린 및 축약 옵션(-n)만 사용합니다.
-      - name: Cache Reset and West Update
-        run: |
-          rm -rf .west modules bootloader zephyr zmk
-          west init -l config || true
-          west update -n
+      - name: Initialize workspace (West Init)
+        uses: zmkfirmware/zmk-actions-toolkit-init@v1
+
+      - name: Download modules (West Update)
+        uses: zmkfirmware/zmk-actions-toolkit-refresh@v1
 
       - name: West Zephyr export
         run: west zephyr-export
 
-      - name: West Build
-        run: west build -s zmk/app -b nice_nano_v2 -- -DSHIELD=${{ matrix.shield }} -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+      - name: Build Left Shield
+        uses: zmkfirmware/zmk-actions-toolkit-build@v1
+        with:
+          board: nice_nano_v2
+          shield: charybdis_left
+          config_path: config
+
+      - name: Build Right Shield
+        uses: zmkfirmware/zmk-actions-toolkit-build@v1
+        with:
+          board: nice_nano_v2
+          shield: charybdis_right
+          config_path: config
 
       - name: Prepare artifacts
         run: |
           mkdir -p build/artifacts
-          cp build/zephyr/zmk.uf2 build/artifacts/${{ matrix.shield }}.uf2
+          [ -f build/left/zephyr/zmk.uf2 ] && cp build/left/zephyr/zmk.uf2 build/artifacts/charybdis_left.uf2 || true
+          [ -f build/right/zephyr/zmk.uf2 ] && cp build/right/zephyr/zmk.uf2 build/artifacts/charybdis_right.uf2 || true
 
-      - name: Upload artifacts
+      - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.shield }}-firmware
+          name: charybdis-firmware
           path: build/artifacts
