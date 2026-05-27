@@ -40,6 +40,9 @@
                                   &kp LEFT_WIN  &kp LEFT_ALT  &kp BACKSPACE    &kp SPACE                    &kp ENTER
                                                 &mkp MB1      &hm MB3 MB2      &ht RIGHT_CONTROL RIGHT_ALT
             >;
+
+            // [추가] MAIN 레이어에서는 트랙볼이 일반 마우스 커서로 움직입니다.
+            trackball-bindings = <&tmv_coarse>;
         };
 
         FIFA {
@@ -51,6 +54,9 @@
                                   &trans        &trans        &kp DELETE       &trans                       &trans
                                                 &trans        &trans           &trans
             >;
+
+            // [추가] FIFA 레이어에서는 트랙볼을 굴리면 화면 스크롤(웹서핑용 휠)로 작동합니다.
+            trackball-bindings = <&tsl>;
         };
 
         SETTING {
@@ -62,6 +68,9 @@
                                                &none         &none         &none            &none                        &none
                                                              &none         &none            &none
             >;
+
+            // [추가] 세팅 레이어에서도 마우스 휠 스크롤이 유지되도록 세팅합니다.
+            trackball-bindings = <&tsl>;
         };
     };
 };
