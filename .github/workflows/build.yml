@@ -16,12 +16,12 @@ jobs:
       - name: West Init
         run: west init -l config
 
-      # 꼬여있는 기존 다운로드 캐시를 무조건 강제 삭제하고 새로 받습니다.
+      # 구버전 west 파서가 이해하는 안전한 클린 및 축약 옵션(-n)만 사용합니다.
       - name: Cache Reset and West Update
         run: |
           rm -rf .west modules bootloader zephyr zmk
           west init -l config || true
-          west update --depth=1 --inline-config --narrow
+          west update -n
 
       - name: West Zephyr export
         run: west zephyr-export
