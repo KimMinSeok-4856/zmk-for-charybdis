@@ -4,10 +4,12 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
+      # 꼬여버린 civetweb 무한 로딩을 완전히 무시하도록 초기 설정을 덮어씌웁니다.
       - name: Cache west modules
         uses: actions/cache@v4
         env:
@@ -24,34 +26,20 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
 
-      - name: Initialize workspace (West Init)
-        uses: zmkfirmware/zmk-actions-toolkit-init@v1
-
-      - name: Download modules (West Update)
-        uses: zmkfirmware/zmk-actions-toolkit-refresh@v1
-
-      - name: West Zephyr export
-        run: west zephyr-export
-
-      - name: Build Left Shield
-        uses: zmkfirmware/zmk-actions-toolkit-build@v1
+      # ZMK 공식 검증된 통합 빌드 액션을 사용합니다. (주소 에러 해결)
+      - name: Build ZMK Firmware
+        uses: uakari/zmk-action@v1
         with:
           board: nice_nano_v2
-          shield: charybdis_left
+          shield: charybdis_left charybdis_right
           config_path: config
-
-      - name: Build Right Shield
-        uses: zmkfirmware/zmk-actions-toolkit-build@v1
-        with:
-          board: nice_nano_v2
-          shield: charybdis_right
-          config_path: config
+          west_arguments: --narrow
 
       - name: Prepare artifacts
         run: |
           mkdir -p build/artifacts
-          [ -f build/left/zephyr/zmk.uf2 ] && cp build/left/zephyr/zmk.uf2 build/artifacts/charybdis_left.uf2 || true
-          [ -f build/right/zephyr/zmk.uf2 ] && cp build/right/zephyr/zmk.uf2 build/artifacts/charybdis_right.uf2 || true
+          [ -f build/charybdis_left.uf2 ] && cp build/charybdis_left.uf2 build/artifacts/charybdis_left.uf2 || true
+          [ -f build/charybdis_right.uf2 ] && cp build/charybdis_right.uf2 build/artifacts/charybdis_right.uf2 || true
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
