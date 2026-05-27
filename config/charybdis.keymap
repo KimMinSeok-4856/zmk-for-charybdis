@@ -5,9 +5,10 @@
 
 / {
     behaviors {
-        // 일반 키용 Hold-Tap
+        // 일반 키용 Hold-Tap (구버전 필수 label 추가)
         ht: hold_tap {
             compatible = "zmk,behavior-hold-tap";
+            label = "HOLD_TAP";
             #binding-cells = <2>;
             flavor = "balanced";
             tapping-term-ms = <200>;
@@ -15,9 +16,10 @@
             bindings = <&kp>, <&kp>;
         };
 
-        // 마우스 클릭용 Hold-Tap
+        // 마우스 클릭용 Hold-Tap (구버전 필수 label 추가)
         hm: hold_tap_mouse {
             compatible = "zmk,behavior-hold-tap";
+            label = "HOLD_TAP_MOUSE";
             #binding-cells = <2>;
             flavor = "balanced";
             tapping-term-ms = <200>;
