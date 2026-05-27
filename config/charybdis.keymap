@@ -53,7 +53,7 @@
 &ht C_POWER F1    &kp F2  &kp F3  &kp F4        &kp F5        &kp F6           &kp F7                       &kp F8     &kp F9     &kp F10              &kp F11               &kp F12
 &trans            &kp Q   &kp W   &kp E         &kp R         &none            &kp PRINTSCREEN              &kp HOME   &kp UP     &kp PAGE_UP          &none                 &none
 &trans            &kp A   &kp S   &kp D         &kp F         &none            &none                        &kp LEFT   &kp DOWN   &kp RIGHT            &none                 &none
-&trans            &kp Z   &none   &kp C         &none         &none            &none                        &kp END    &none      &kp PAGE_DOWN        &none                 &none
+&trans            &kp Z   &none   &kp C         &none         &none            &none                        &kp END    &none      &kp PAGE_DOWN        &none                 &trans
                                   &trans        &trans        &kp DELETE       &trans                       &trans
                                                 &trans        &trans           &trans
             >;
