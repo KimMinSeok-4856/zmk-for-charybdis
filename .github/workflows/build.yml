@@ -12,18 +12,28 @@ jobs:
         shield: [charybdis_left, charybdis_right]
     steps:
       - uses: actions/checkout@v4
+
       - name: West Init
         run: west init -l config
-      - name: West Update
-        run: west update
+
+      # 꼬여있는 기존 다운로드 캐시를 무조건 강제 삭제하고 새로 받습니다.
+      - name: Cache Reset and West Update
+        run: |
+          rm -rf .west modules bootloader zephyr zmk
+          west init -l config || true
+          west update --depth=1 --inline-config --narrow
+
       - name: West Zephyr export
         run: west zephyr-export
+
       - name: West Build
         run: west build -s zmk/app -b nice_nano_v2 -- -DSHIELD=${{ matrix.shield }} -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+
       - name: Prepare artifacts
         run: |
           mkdir -p build/artifacts
           cp build/zephyr/zmk.uf2 build/artifacts/${{ matrix.shield }}.uf2
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
